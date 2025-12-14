@@ -73,21 +73,48 @@
   </div>
 </div>
 
-<!-- MODAL DETALHES -->
-<div class="modal-overlay" id="detailsModal">
-  <div class="modal-details">
-    <div class="modal-content">
-      <h2 id="detailsTitle"></h2>
-      <img id="detailsCapa">
-      <p id="detailsInfo"></p>
-      <p id="detailsDatas"></p>
+<!-- ================= MODAL DE DETALHES ================= -->
+<div id="detailsModal" class="modal">
+    <div class="modal-content details-layout">
 
-      <button id="editItem">Editar</button>
-      <button id="deleteItem">Excluir</button>
-      <button id="closeDetails">Fechar</button>
+        <!-- ===== COLUNA DA IMAGEM ===== -->
+        <div class="details-image">
+            <img id="detailsCapa" alt="Capa do item">
+        </div>
+
+        <!-- ===== COLUNA DAS INFORMAÇÕES ===== -->
+        <div class="details-info">
+
+            <!-- Título -->
+            <h2 id="detailsTitle"></h2>
+
+            <!-- Link para assistir -->
+            <a id="detailsAssistir" target="_blank">Assistir</a>
+
+            <!-- Controle de episódios -->
+            <div id="detailsEpi" class="epi-control">
+                <button id="detailsDec">-</button>
+                <span id="detailsEpiValue"></span>
+                <button id="detailsInc">+</button>
+            </div>
+
+            <!-- Texto -->
+            <p id="detailsInfo"></p>
+
+            <!-- Datas -->
+            <p id="detailsDatas"></p>
+
+            <!-- Ações -->
+            <div class="form-actions">
+                <button id="editItem">Editar</button>
+                <button id="deleteItem">Excluir</button>
+                <button id="closeDetails">Fechar</button>
+            </div>
+        </div>
+
     </div>
-  </div>
 </div>
+
 
 <!-- FIREBASE -->
 <script type="module">
@@ -113,4 +140,5 @@
 
 </body>
 </html>
+
 
