@@ -1,4 +1,3 @@
-<!-- ========================== index.html ========================== -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -51,7 +50,8 @@
 <!-- ================= MODAL FORM ================= -->
 <div id="modal" class="modal">
   <div class="modal-content">
-    <h2 id="modalTitle">Item</h2>
+    <h2 id="modalTitle">Adicionar item</h2>
+
     <form id="itemForm">
       <input type="hidden" id="categoriaAtual">
       <input type="hidden" id="idAtual">
@@ -61,8 +61,10 @@
       <input id="capa" placeholder="URL da capa">
       <input id="epi" type="number" min="0" placeholder="Episódios">
 
-      <label><input type="checkbox" id="dublado"> Dublado</label>
-      <label><input type="checkbox" id="legendado"> Legendado</label>
+      <div class="checks">
+        <label><input type="checkbox" id="dublado"> Dublado</label>
+        <label><input type="checkbox" id="legendado"> Legendado</label>
+      </div>
 
       <textarea id="sinopse" placeholder="Sinopse"></textarea>
       <textarea id="resumo" placeholder="Resumo"></textarea>
@@ -81,22 +83,19 @@
 <div id="detailsModal" class="modal">
   <div class="modal-content details-layout">
 
-    <div class="details-image">
-      <img id="detailsCapa">
-    </div>
+    <img id="detailsCapa">
 
     <div class="details-info">
       <h2 id="detailsTitle"></h2>
-
       <a id="detailsAssistir" target="_blank">Assistir</a>
 
-      <div id="detailsEpi" class="epi-control">
+      <div class="epi-control">
         <button id="detailsDec">-</button>
         <span id="detailsEpiValue"></span>
         <button id="detailsInc">+</button>
       </div>
 
-      <!-- LISTAS DE CATEGORIA -->
+      <!-- CHECKLIST DE LISTAS -->
       <div class="checks">
         <label><input type="checkbox" data-flag="dropei"> Dropei</label>
         <label><input type="checkbox" data-flag="indicar"> Indicar</label>
@@ -113,7 +112,6 @@
         <button id="closeDetails">Fechar</button>
       </div>
     </div>
-
   </div>
 </div>
 
@@ -131,8 +129,7 @@
     appId: "1:1055643487864:web:245601c718da750dd6e78d"
   };
 
-  const app = initializeApp(firebaseConfig);
-  window.db = getFirestore(app);
+  window.db = getFirestore(initializeApp(firebaseConfig));
 </script>
 
 <script type="module" src="script.js"></script>
