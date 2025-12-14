@@ -124,4 +124,87 @@ document.getElementById("detailsDec").onclick = async () => {
 /* ================= FORM ================= */
 form.onsubmit = async e => {
   e.preventDefault();
-  const cat
+  const cat = categoriaAtual.value;
+
+  const payload = {
+    titulo: titulo.value,
+    tituloOriginal: tituloOriginal.value,
+    capa: capa.value,
+    epi: cat === "filmes" ? null : Number(epi.value),
+    dublado: dublado.checked,
+    legendado: legendado.checked,
+    sinopse: sinopse.value,
+    resumo: resumo.value,
+    trailer: trailer.value,
+    link: link.value,
+    listas: itemSelecionado?.listas || {},
+    atualizadoEm: new Date().toISOString()
+  };
+
+  if (modoEdicao) {
+    await updateDoc(doc(db, cat, idAtual.value), payload);
+  } else {
+    payload.criadoEm = payload.atualizadoEm;
+    await addDoc(collection(db, cat), payload);
+  }
+
+  modal.classList.remove("active");
+  form.reset();
+  modoEdicao = false;
+};
+
+/* ================= BOTÕES ================= */
+document.querySelectorAll(".addBtn").forEach(btn => {
+  btn.onclick = () => {
+    modoEdicao = false;
+    form.reset();
+    categoriaAtual.value = btn.dataset.category;
+    modal.classList.add("active");
+  };
+});
+
+document.getElementById("editItem").onclick = () => {
+  modoEdicao = true;
+  modal.classList.add("active");
+  detailsModal.classList.remove("active");
+
+  idAtual.value = itemSelecionado.id;
+  categoriaAtual.value = itemSelecionado.categoria;
+
+  titulo.value = itemSelecionado.titulo;
+  tituloOriginal.value = itemSelecionado.tituloOriginal || "";
+  capa.value = itemSelecionado.capa || "";
+  epi.value = itemSelecionado.epi ?? 0;
+  dublado.checked = itemSelecionado.dublado;
+  legendado.checked = itemSelecionado.legendado;
+  sinopse.value = itemSelecionado.sinopse || "";
+  resumo.value = itemSelecionado.resumo || "";
+  trailer.value = itemSelecionado.trailer || "";
+  link.value = itemSelecionado.link;
+};
+
+document.getElementById("deleteItem").onclick = async () => {
+  await deleteDoc(doc(db, itemSelecionado.categoria, itemSelecionado.id));
+  detailsModal.classList.remove("active");
+};
+
+document.getElementById("closeModal").onclick = () => modal.classList.remove("active");
+document.getElementById("closeDetails").onclick = () => detailsModal.classList.remove("active");
+
+/* ================= FILTROS ================= */
+document.querySelectorAll("#listasDropdown button").forEach(btn => {
+  btn.onclick = () => {
+    filtroAtivo = btn.dataset.filtro || "";
+    renderizar();
+  };
+});
+
+/* ================= ABAS ================= */
+document.querySelectorAll(".tab").forEach(tab => {
+  tab.onclick = () => {
+    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+    document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+    tab.classList.add("active");
+    document.getElementById(tab.dataset.tab).classList.add("active");
+  };
+});
