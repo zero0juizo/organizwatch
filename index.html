@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <!-- Charset e título -->
+    <meta charset="UTF-8">
+    <title>&Oslash;</title>
+
+    <!-- Responsividade -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS principal -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>&Oslash; Organiwatch &Oslash;</h1>
+
+    <!-- ================= MENU DE LISTAS (FILTRO GLOBAL) ================= -->
+    <div id="menuListas">
+        <button>Listas</button>
+        <div id="listasDropdown">
+            <button data-lista="">Todos</button>
+            <button data-lista="Dropei">Dropei</button>
+            <button data-lista="Indicar">Indicar</button>
+            <button data-lista="Bom">Bom</button>
+            <button data-lista="FODA">FODA</button>
+            <button data-lista="Assistirei">Assistirei</button>
+        </div>
+    </div>
+
+    <!-- ================= ABAS ================= -->
+    <div class="tabs">
+        <button class="tab active" data-tab="filmes">Filmes</button>
+        <button class="tab" data-tab="series">S&eacute;ries</button>
+        <button class="tab" data-tab="animes">Animes</button>
+    </div>
+
+    <!-- ================= CONTEÚDO DAS ABAS ================= -->
+    <div class="tab-content active" id="filmes">
+        <button class="addBtn" data-category="filmes">Adicionar Filme</button>
+        <div class="lista" id="lista-filmes"></div>
+    </div>
+
+    <div class="tab-content" id="series">
+        <button class="addBtn" data-category="series">Adicionar S&eacute;rie</button>
+        <div class="lista" id="lista-series"></div>
+    </div>
+
+    <div class="tab-content" id="animes">
+        <button class="addBtn" data-category="animes">Adicionar Anime</button>
+        <div class="lista" id="lista-animes"></div>
+    </div>
+
+    <!-- ================= MODAL CADASTRO / EDIÇÃO ================= -->
+    <div class="modal-overlay" id="modalCadastro">
+        <div class="modal">
+
+            <h2 id="modalTitle"></h2>
+
+            <form id="itemForm">
+                <input type="hidden" id="categoriaAtual">
+
+                <input id="titulo" placeholder="Título *" required>
+                <input id="tituloOriginal" placeholder="Título Original">
+                <input id="capa" placeholder="Capa (URL)">
+                <input id="epi" type="number" min="0" placeholder="Episódios">
+
+                <label><input type="checkbox" id="dublado"> Dublado</label>
+                <label><input type="checkbox" id="legendado"> Legendado</label>
+
+                <textarea id="sinopse" placeholder="Sinopse"></textarea>
+                <textarea id="resumo" placeholder="Resumo"></textarea>
+                <input id="trailer" placeholder="Trailer">
+                <input id="link" type="url" placeholder="Link *" required>
+
+                <button type="submit">Salvar</button>
+                <button type="button" id="closeModal">Cancelar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================= MODAL DETALHES ================= -->
+    <div class="modal-overlay" id="detailsModal">
+        <div class="modal">
+
+            <h2 id="detailsTitle"></h2>
+            <img id="detailsCapa">
+            <p id="detailsInfo"></p>
+
+            <!-- Datas + Link -->
+            <div id="detailsDatas"></div>
+
+            <!-- Listas pessoais -->
+            <div id="listasItem">
+                <button data-lista="">Nenhuma</button>
+                <button data-lista="Dropei">Dropei</button>
+                <button data-lista="Indicar">Indicar</button>
+                <button data-lista="Bom">Bom</button>
+                <button data-lista="FODA">FODA</button>
+                <button data-lista="Assistirei">Assistirei</button>
+            </div>
+
+            <button id="editItem">Editar</button>
+            <button id="deleteItem">Excluir</button>
+            <button id="closeDetails">Fechar</button>
+        </div>
+    </div>
+
+    <!-- ================= SCRIPT ================= -->
+    <script src="script.js"></script>
+
+</body>
+</html>
