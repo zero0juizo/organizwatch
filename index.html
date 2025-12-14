@@ -4,15 +4,17 @@
   <meta charset="UTF-8" />
   <title>Organiwatch</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
 <h1>Organiwatch</h1>
 
-<!-- MENU LISTAS -->
+<!-- ================= MENU DE LISTAS (FUTURO FILTRO) ================= -->
 <div id="menuListas">
-  <button id="openListas">Listas</button>
+  <button>Listas</button>
   <div id="listasDropdown">
     <button data-lista="">Todos</button>
     <button data-lista="Dropei">Dropei</button>
@@ -23,14 +25,14 @@
   </div>
 </div>
 
-<!-- ABAS -->
+<!-- ================= ABAS ================= -->
 <div class="tabs">
   <button class="tab active" data-tab="filmes">Filmes</button>
   <button class="tab" data-tab="series">Séries</button>
   <button class="tab" data-tab="animes">Animes</button>
 </div>
 
-<!-- CONTEÚDOS -->
+<!-- ================= CONTEÚDOS ================= -->
 <div class="tab-content active" id="filmes">
   <button class="addBtn" data-category="filmes">Adicionar Filme</button>
   <div class="lista" id="lista-filmes"></div>
@@ -46,10 +48,10 @@
   <div class="lista" id="lista-animes"></div>
 </div>
 
-<!-- MODAL FORM -->
+<!-- ================= MODAL FORMULÁRIO ================= -->
 <div id="modal" class="modal">
   <div class="modal-content">
-    <h2 id="modalTitle"></h2>
+    <h2 id="modalTitle">Novo item</h2>
 
     <form id="itemForm">
       <input type="hidden" id="categoriaAtual">
@@ -67,56 +69,50 @@
       <input id="trailer" placeholder="Trailer">
       <input id="link" placeholder="Link *" required>
 
-      <button type="submit">Salvar</button>
-      <button type="button" id="closeModal">Cancelar</button>
+      <div class="form-actions">
+        <button type="submit">Salvar</button>
+        <button type="button" id="closeModal">Cancelar</button>
+      </div>
     </form>
   </div>
 </div>
 
-<!-- ================= MODAL DE DETALHES ================= -->
+<!-- ================= MODAL DETALHES ================= -->
 <div id="detailsModal" class="modal">
-    <div class="modal-content details-layout">
+  <div class="modal-content details-layout">
 
-        <!-- ===== COLUNA DA IMAGEM ===== -->
-        <div class="details-image">
-            <img id="detailsCapa" alt="Capa do item">
-        </div>
-
-        <!-- ===== COLUNA DAS INFORMAÇÕES ===== -->
-        <div class="details-info">
-
-            <!-- Título -->
-            <h2 id="detailsTitle"></h2>
-
-            <!-- Link para assistir -->
-            <a id="detailsAssistir" target="_blank">Assistir</a>
-
-            <!-- Controle de episódios -->
-            <div id="detailsEpi" class="epi-control">
-                <button id="detailsDec">-</button>
-                <span id="detailsEpiValue"></span>
-                <button id="detailsInc">+</button>
-            </div>
-
-            <!-- Texto -->
-            <p id="detailsInfo"></p>
-
-            <!-- Datas -->
-            <p id="detailsDatas"></p>
-
-            <!-- Ações -->
-            <div class="form-actions">
-                <button id="editItem">Editar</button>
-                <button id="deleteItem">Excluir</button>
-                <button id="closeDetails">Fechar</button>
-            </div>
-        </div>
-
+    <!-- Imagem -->
+    <div class="details-image">
+      <img id="detailsCapa">
     </div>
+
+    <!-- Informações -->
+    <div class="details-info">
+      <h2 id="detailsTitle"></h2>
+
+      <a id="detailsAssistir" target="_blank">Assistir</a>
+
+      <!-- Episódios -->
+      <div id="detailsEpi" class="epi-control">
+        <button id="detailsDec">-</button>
+        <span id="detailsEpiValue"></span>
+        <button id="detailsInc">+</button>
+      </div>
+
+      <p id="detailsInfo"></p>
+      <p id="detailsDatas"></p>
+
+      <div class="form-actions">
+        <button id="editItem">Editar</button>
+        <button id="deleteItem">Excluir</button>
+        <button id="closeDetails">Fechar</button>
+      </div>
+    </div>
+
+  </div>
 </div>
 
-
-<!-- FIREBASE -->
+<!-- ================= FIREBASE ================= -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
   import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
@@ -127,8 +123,7 @@
     projectId: "organiwatch",
     storageBucket: "organiwatch.firebasestorage.app",
     messagingSenderId: "1055643487864",
-    appId: "1:1055643487864:web:245601c718da750dd6e78d",
-    measurementId: "G-CCG5M0F8VG"
+    appId: "1:1055643487864:web:245601c718da750dd6e78d"
   };
 
   const app = initializeApp(firebaseConfig);
@@ -140,5 +135,3 @@
 
 </body>
 </html>
-
-
