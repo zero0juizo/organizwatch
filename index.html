@@ -1,27 +1,27 @@
+<!-- ========================== index.html ========================== -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <title>Organiwatch</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
 <h1>Organiwatch</h1>
 
-<!-- ================= MENU DE LISTAS (FUTURO FILTRO) ================= -->
+<!-- ================= FILTROS DE LISTA ================= -->
 <div id="menuListas">
-  <button>Listas</button>
+  <button id="openListas">Listas</button>
   <div id="listasDropdown">
-    <button data-lista="">Todos</button>
-    <button data-lista="Dropei">Dropei</button>
-    <button data-lista="Indicar">Indicar</button>
-    <button data-lista="Bom">Bom</button>
-    <button data-lista="FODA">FODA</button>
-    <button data-lista="Assistirei">Assistirei</button>
+    <button data-filtro="">Todos</button>
+    <button data-filtro="dropei">Dropei</button>
+    <button data-filtro="indicar">Indicar</button>
+    <button data-filtro="assistindo">Assistindo</button>
+    <button data-filtro="assistido">Assistido</button>
+    <button data-filtro="dublado">Dublado</button>
+    <button data-filtro="legendado">Legendado</button>
   </div>
 </div>
 
@@ -48,13 +48,13 @@
   <div class="lista" id="lista-animes"></div>
 </div>
 
-<!-- ================= MODAL FORMULÁRIO ================= -->
+<!-- ================= MODAL FORM ================= -->
 <div id="modal" class="modal">
   <div class="modal-content">
-    <h2 id="modalTitle">Novo item</h2>
-
+    <h2 id="modalTitle">Item</h2>
     <form id="itemForm">
       <input type="hidden" id="categoriaAtual">
+      <input type="hidden" id="idAtual">
 
       <input id="titulo" placeholder="Título *" required>
       <input id="tituloOriginal" placeholder="Título Original">
@@ -81,22 +81,27 @@
 <div id="detailsModal" class="modal">
   <div class="modal-content details-layout">
 
-    <!-- Imagem -->
     <div class="details-image">
       <img id="detailsCapa">
     </div>
 
-    <!-- Informações -->
     <div class="details-info">
       <h2 id="detailsTitle"></h2>
 
       <a id="detailsAssistir" target="_blank">Assistir</a>
 
-      <!-- Episódios -->
       <div id="detailsEpi" class="epi-control">
         <button id="detailsDec">-</button>
         <span id="detailsEpiValue"></span>
         <button id="detailsInc">+</button>
+      </div>
+
+      <!-- CHECK MARKS DAS LISTAS -->
+      <div class="checks">
+        <label><input type="checkbox" data-flag="dropei"> Dropei</label>
+        <label><input type="checkbox" data-flag="indicar"> Indicar</label>
+        <label><input type="checkbox" data-flag="assistindo"> Assistindo</label>
+        <label><input type="checkbox" data-flag="assistido"> Assistido</label>
       </div>
 
       <p id="detailsInfo"></p>
@@ -130,8 +135,6 @@
   window.db = getFirestore(app);
 </script>
 
-<!-- SCRIPT PRINCIPAL -->
 <script type="module" src="script.js"></script>
-
 </body>
 </html>
