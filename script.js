@@ -1,10 +1,9 @@
-// ========================== script.js ==========================
 import {
   collection, addDoc, updateDoc, deleteDoc,
   doc, onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-/* ================= ESTADO ================= */
+/* ================= ESTADO GLOBAL ================= */
 let dados = { filmes: [], series: [], animes: [] };
 let itemSelecionado = null;
 let modoEdicao = false;
@@ -16,6 +15,7 @@ const detailsModal = document.getElementById("detailsModal");
 const form = document.getElementById("itemForm");
 
 /* ================= INPUTS ================= */
+const modalTitle = document.getElementById("modalTitle");
 const categoriaAtual = document.getElementById("categoriaAtual");
 const idAtual = document.getElementById("idAtual");
 const titulo = document.getElementById("titulo");
@@ -35,7 +35,6 @@ const detailsCapa = document.getElementById("detailsCapa");
 const detailsInfo = document.getElementById("detailsInfo");
 const detailsDatas = document.getElementById("detailsDatas");
 const detailsAssistir = document.getElementById("detailsAssistir");
-const detailsEpi = document.getElementById("detailsEpi");
 const detailsEpiValue = document.getElementById("detailsEpiValue");
 
 /* ================= FIRESTORE ================= */
@@ -62,7 +61,10 @@ function renderizar() {
       .forEach(item => {
         const div = document.createElement("div");
         div.className = "item";
-        div.innerHTML = `<img src="${item.capa || ""}"><strong>${item.titulo}</strong>`;
+        div.innerHTML = `
+          <img src="${item.capa || ""}">
+          <strong>${item.titulo}</strong>
+        `;
         div.onclick = () => abrirDetalhes(cat, item.id);
         lista.appendChild(div);
       });
@@ -78,15 +80,11 @@ function abrirDetalhes(cat, id) {
   detailsTitle.textContent = itemSelecionado.titulo;
   detailsCapa.src = itemSelecionado.capa || "";
   detailsInfo.textContent = itemSelecionado.sinopse || "";
+  detailsDatas.textContent =
+    `Criado em: ${new Date(itemSelecionado.criadoEm).toLocaleString()}`;
   detailsAssistir.href = itemSelecionado.link;
-  detailsDatas.textContent = `Criado em: ${new Date(itemSelecionado.criadoEm).toLocaleString()}`;
 
-  if (itemSelecionado.epi !== null) {
-    detailsEpi.style.display = "flex";
-    detailsEpiValue.textContent = itemSelecionado.epi;
-  } else {
-    detailsEpi.style.display = "none";
-  }
+  detailsEpiValue.textContent = itemSelecionado.epi ?? "-";
 
   document.querySelectorAll("[data-flag]").forEach(cb => {
     cb.checked = !!itemSelecionado.listas[cb.dataset.flag];
@@ -100,25 +98,19 @@ function abrirDetalhes(cat, id) {
   detailsModal.classList.add("active");
 }
 
-/* ================= EPISÓDIOS (ATUALIZA EM TEMPO REAL) ================= */
+/* ================= EPISÓDIOS ================= */
 document.getElementById("detailsInc").onclick = async () => {
-  if (itemSelecionado.epi === null) return;
   itemSelecionado.epi++;
   detailsEpiValue.textContent = itemSelecionado.epi;
-  await updateDoc(doc(db, itemSelecionado.categoria, itemSelecionado.id), {
-    epi: itemSelecionado.epi,
-    atualizadoEm: new Date().toISOString()
-  });
+  await updateDoc(doc(db, itemSelecionado.categoria, itemSelecionado.id), { epi: itemSelecionado.epi });
 };
 
 document.getElementById("detailsDec").onclick = async () => {
-  if (itemSelecionado.epi === null || itemSelecionado.epi <= 0) return;
-  itemSelecionado.epi--;
-  detailsEpiValue.textContent = itemSelecionado.epi;
-  await updateDoc(doc(db, itemSelecionado.categoria, itemSelecionado.id), {
-    epi: itemSelecionado.epi,
-    atualizadoEm: new Date().toISOString()
-  });
+  if (itemSelecionado.epi > 0) {
+    itemSelecionado.epi--;
+    detailsEpiValue.textContent = itemSelecionado.epi;
+    await updateDoc(doc(db, itemSelecionado.categoria, itemSelecionado.id), { epi: itemSelecionado.epi });
+  }
 };
 
 /* ================= FORM ================= */
@@ -150,13 +142,13 @@ form.onsubmit = async e => {
 
   modal.classList.remove("active");
   form.reset();
-  modoEdicao = false;
 };
 
 /* ================= BOTÕES ================= */
 document.querySelectorAll(".addBtn").forEach(btn => {
   btn.onclick = () => {
     modoEdicao = false;
+    modalTitle.textContent = "Adicionar item";
     form.reset();
     categoriaAtual.value = btn.dataset.category;
     modal.classList.add("active");
@@ -165,8 +157,7 @@ document.querySelectorAll(".addBtn").forEach(btn => {
 
 document.getElementById("editItem").onclick = () => {
   modoEdicao = true;
-  modal.classList.add("active");
-  detailsModal.classList.remove("active");
+  modalTitle.textContent = "Editar item";
 
   idAtual.value = itemSelecionado.id;
   categoriaAtual.value = itemSelecionado.categoria;
@@ -181,6 +172,9 @@ document.getElementById("editItem").onclick = () => {
   resumo.value = itemSelecionado.resumo || "";
   trailer.value = itemSelecionado.trailer || "";
   link.value = itemSelecionado.link;
+
+  detailsModal.classList.remove("active");
+  modal.classList.add("active");
 };
 
 document.getElementById("deleteItem").onclick = async () => {
