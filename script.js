@@ -55,9 +55,48 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ================= MODAIS =================
-  function abrirDetalhes(cat, item) {
-    itemSelecionado = { ...item, categoria: cat };
-    detailsModal.classList.add("active");
+  function abrirDetalhes(categoria, id) {
+
+    // Localiza o item correto
+    itemSelecionado = dados[categoria].find(i => i.id === id);
+    categoriaAtual.value = categoria;
+
+    // ===== TÍTULO =====
+    detailsTitle.textContent = itemSelecionado.titulo;
+
+    // ===== CAPA =====
+    detailsCapa.src = itemSelecionado.capa || '';
+
+    // ===== LINK "ASSISTIR" =====
+    detailsAssistir.href = itemSelecionado.link;
+    detailsAssistir.style.display = itemSelecionado.link ? 'inline-block' : 'none';
+
+    // ===== SINOPSE =====
+    detailsInfo.textContent = itemSelecionado.sinopse || 'Sem sinopse.';
+
+    // ===== DATAS =====
+    detailsDatas.textContent =
+        `Criado: ${new Date(itemSelecionado.criadoEm).toLocaleString()}`;
+
+    // ===== EPISÓDIOS =====
+    if (itemSelecionado.epi !== null) {
+        detailsEpi.style.display = 'flex';
+        detailsEpiValue.textContent = itemSelecionado.epi;
+    } else {
+        // Filmes não possuem episódios
+        detailsEpi.style.display = 'none';
+    }
+
+    // Exibe o modal
+    detailsModal.classList.add('active');
+}
+
+    // ===== ELEMENTOS DO DETALHE =====
+const detailsAssistir = document.getElementById('detailsAssistir');
+const detailsEpi = document.getElementById('detailsEpi');
+const detailsEpiValue = document.getElementById('detailsEpiValue');
+const detailsInc = document.getElementById('detailsInc');
+const detailsDec = document.getElementById('detailsDec');
 
     document.getElementById("detailsTitle").textContent = item.titulo;
     document.getElementById("detailsCapa").src = item.capa || "";
@@ -152,7 +191,33 @@ tabs.forEach(tab => {
   });
 });
 
-  
+  // ===== BOTÃO + EPISÓDIO =====
+detailsInc.addEventListener('click', () => {
+    if (!itemSelecionado) return;
+
+    itemSelecionado.epi++;
+    itemSelecionado.atualizadoEm = new Date().toISOString();
+
+    detailsEpiValue.textContent = itemSelecionado.epi;
+
+    salvarDados();
+    renderizar();
 });
+
+// ===== BOTÃO - EPISÓDIO =====
+detailsDec.addEventListener('click', () => {
+    if (!itemSelecionado || itemSelecionado.epi <= 0) return;
+
+    itemSelecionado.epi--;
+    itemSelecionado.atualizadoEm = new Date().toISOString();
+
+    detailsEpiValue.textContent = itemSelecionado.epi;
+
+    salvarDados();
+    renderizar();
+});
+
+});
+
 
 
