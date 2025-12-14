@@ -16,6 +16,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ================= ELEMENTOS =================
   const modal = document.getElementById("modal");
+  modal.addEventListener("click", (e) => {
+  // Se o clique foi no fundo escuro (e não dentro do formulário)
+  if (e.target === modal) {
+    modal.classList.remove("active");
+  }
+});
   const detailsModal = document.getElementById("detailsModal");
   const form = document.getElementById("itemForm");
 
@@ -148,4 +154,5 @@ tabs.forEach(tab => {
 
   
 });
+
 
