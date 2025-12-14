@@ -126,4 +126,26 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("categoriaAtual").value = itemSelecionado.categoria;
   };
 
+  // ================= ABAS =================
+const tabs = document.querySelectorAll(".tab");
+const contents = document.querySelectorAll(".tab-content");
+
+tabs.forEach(tab => {
+  tab.addEventListener("click", () => {
+
+    // Remove ativo de tudo
+    tabs.forEach(t => t.classList.remove("active"));
+    contents.forEach(c => c.classList.remove("active"));
+
+    // Ativa aba clicada
+    tab.classList.add("active");
+
+    // Ativa conteúdo correspondente
+    const alvo = document.getElementById(tab.dataset.tab);
+    if (alvo) alvo.classList.add("active");
+  });
 });
+
+  
+});
+
