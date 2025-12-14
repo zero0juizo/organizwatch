@@ -87,17 +87,10 @@ body {
   gap: 10px;
 }
 
+.epi-control {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
 #menuListas {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-}
-
-#listasDropdown {
-  display: none;
-  background: #020617;
-}
-
-#menuListas:hover #listasDropdown {
-  display: block;
-}
